@@ -171,7 +171,7 @@ class PagedData (object):
         if record['name'] == 'SensorCalFactor': 
           factor = lib.BangInt([ body[0], body[1] ]) / 1000.0
           record.update(factor=factor) 
-        records.append(mapped_glucose_records)
+        records.extend(mapped_glucose_records)
         records.append(record)
         prefix_records = []
 

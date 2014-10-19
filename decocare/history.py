@@ -183,12 +183,28 @@ class ChangeUtility(KnownRecord):
 class ChangeTimeDisplay(KnownRecord):
   opcode = 0x64
 
+class SensorSettings722(KnownRecord):
+  opcode = 0x4f
+  body_length = 32
+
+  def decode(self):
+    self.parse_time( )
+    # TODO: decode the rest of the record
+    # should include: transmitter code, sensor on/off, high snooze, 
+    #                 low snooze, alarm snooze, cal reminder, 
+    #                 missed data, bg units
+    old_settings = {'high_alert': int(self.body[3]), 'low_alert': int(self.body[4])}
+    new_settings = {'high_alert': int(self.body[19]), 'low_alert': int(self.body[20])}
+    return {'old_settings': old_settings, 'new_settings': new_settings}
+
+
 _confirmed = [ Bolus, Prime, NoDelivery, MResultTotals, ChangeBasalProfile,
                ClearAlarm, SelectBasalProfile, TempBasalDuration, ChangeTime,
                NewTimeSet, LowBattery, Battery, PumpSuspend,
                PumpResume, CalBGForPH, Rewind, EnableDisableRemote,
                ChangeRemoteID, TempBasal, LowReservoir, BolusWizard,
-               UnabsorbedInsulinBolus, ChangeUtility, ChangeTimeDisplay ]
+               UnabsorbedInsulinBolus, ChangeUtility, ChangeTimeDisplay,
+               SensorSettings722 ]
 
 _confirmed.append(DanaScott0x09)
 
